@@ -1,0 +1,48 @@
+﻿<Window x:Class="MasterMindWPL.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MasterMindWPL"
+        mc:Ignorable="d"
+        Closing="Window_Closing"
+        Title="MainWindow" Height="450" Width="820">
+    <Grid Background="Gray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="1.2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu Name="mainMenu" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0">
+            <MenuItem Name="menuBestand" Header="Bestand">
+                <MenuItem Name="menuNieuwSpel" Header="Nieuw Spel" Click="menuNieuwSpel_Click"></MenuItem>
+                <MenuItem Name="menuHighScores" Header="Highscores" Click="menuHighScores_Click"></MenuItem>
+                <MenuItem Name="menuAfsluiten" Header="Afsluiten" Click="menuAfsluiten_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Name="menuInstellingen" Header="Instellingen">
+                <MenuItem Name="menuPogingen" Header="Aantal pogingen" Click="menuPogingen_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <ComboBox Name="cboColors1" SelectionChanged="cboColors1_SelectionChanged" Grid.Row="1"></ComboBox>
+        <ComboBox Name="cboColors2"  Grid.Column="1" SelectionChanged="cboColors2_SelectionChanged" Grid.Row="1"></ComboBox>
+        <ComboBox Name="cboColors3"  Grid.Column="2" SelectionChanged="cboColors3_SelectionChanged" Grid.Row="1"></ComboBox>
+        <ComboBox Name="cboColors4" Grid.Column="3" SelectionChanged="cboColors4_SelectionChanged" Grid.Row="1"></ComboBox>
+        <Ellipse Name="ellipseColor1" Grid.Row="2" Width="80" Height="80" StrokeThickness="5"></Ellipse>
+        <Ellipse Name="ellipseColor2" Grid.Row="2" Grid.Column="1" Width="80" Height="80" StrokeThickness="5"></Ellipse>
+        <Ellipse Name="ellipseColor3" Grid.Row="2" Grid.Column="2" Width="80" Height="80" StrokeThickness="5"></Ellipse>
+        <Ellipse Name="ellipseColor4" Grid.Row="2" Grid.Column="3" Width="80" Height="80" StrokeThickness="5"></Ellipse>
+        <Button Name="btnCheckCode" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Click="btnCheckCode_Click" Margin="50">Check code</Button>
+        <TextBlock Name="TxtCode" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" KeyDown="TxtCode_KeyDown"></TextBlock>
+        <TextBlock Name="TxtPogingen" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <ListBox Grid.Row="1" Grid.Column="4" Grid.RowSpan="4" Name="ListBoxHistoriek" Background="Gray"/>
+    </Grid>
+</Window>
