@@ -398,5 +398,36 @@ namespace MasterMindWPL
             }
             _maxAttempts = Convert.ToInt32(numOfAttempts);
         }
+
+
+        private void btnGetHint_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Wat voor hint wilt u gebruiken?\nYes = Juiste plaats\nNo = Juiste kleur\nCancel = Nog geen hint gebruiken", "HINT", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                _score -= 25;
+                Random rand = new Random();
+                int codeIndex = rand.Next(0, 4);
+
+                string color = _code[codeIndex];
+                MessageBox.Show($"De code bevat de kleur {color}, deze staat op plaats {codeIndex+1}", "Juiste plaats");
+
+                TxtPogingen.Text = $"Current player: {_currentPlayer}\nPoging: {_attempts} / 10\nScore: {_score}";
+                btnGetHint.Visibility = Visibility.Collapsed;
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                _score -= 15;
+                Random rand = new Random();
+                int codeIndex = rand.Next(0, 4);
+
+                string color = _code[codeIndex];
+                MessageBox.Show($"De code bevat de kleur {color}", "Juiste kleur");
+
+                TxtPogingen.Text = $"Current player: {_currentPlayer}\nPoging: {_attempts} / 10\nScore: {_score}";
+                btnGetHint.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }
