@@ -42,7 +42,6 @@ namespace MasterMindWPL
             AddColorsToDictionary();
             FillComboBoxes();
             GenerateRandomCode();
-            TxtPogingen.Text = $"Poging: {_attempts} / 10\nScore: {_score}";
             foreach (string color in _code)
             {
                 _currentCode = _currentCode + $"{color} ";
@@ -242,7 +241,7 @@ namespace MasterMindWPL
 
             }
             _attempts++;
-            TxtPogingen.Text = $"Poging: {_attempts} / {_maxAttempts}\nScore: {_score}";
+            TxtPogingen.Text = $"Current player: {_currentPlayer}\nPoging: {_attempts} / {_maxAttempts}\nScore: {_score}";
         }
 
         public void AddToHistory(Ellipse ellipse1, Ellipse ellipse2, Ellipse ellipse3, Ellipse ellipse4)
@@ -329,6 +328,7 @@ namespace MasterMindWPL
             } while (true);
 
             _currentPlayer = _playerList[0];
+            TxtPogingen.Text = $"Current player: {_currentPlayer}\nPoging: {_attempts} / 10\nScore: {_score}";
         }
 
         public string AskPlayerName()
