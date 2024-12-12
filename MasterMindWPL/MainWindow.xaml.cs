@@ -252,17 +252,27 @@ namespace MasterMindWPL
                 Margin = new Thickness(5)
             };
 
-            ellipsePanel.Children.Add(CreateEllipse(ellipse1.Fill, ellipse1.Stroke));
-            ellipsePanel.Children.Add(CreateEllipse(ellipse2.Fill, ellipse2.Stroke));
-            ellipsePanel.Children.Add(CreateEllipse(ellipse3.Fill, ellipse3.Stroke));
-            ellipsePanel.Children.Add(CreateEllipse(ellipse4.Fill, ellipse4.Stroke));
+            Ellipse copyEllipse1 = CreateEllipse(ellipse1.Fill, ellipse1.Stroke);
+            Ellipse copyEllipse2 = CreateEllipse(ellipse2.Fill, ellipse2.Stroke);
+            Ellipse copyEllipse3 = CreateEllipse(ellipse3.Fill, ellipse3.Stroke);
+            Ellipse copyEllipse4 = CreateEllipse(ellipse4.Fill, ellipse4.Stroke);
+
+            ellipsePanel.Children.Add(copyEllipse1);
+            ellipsePanel.Children.Add(copyEllipse2);
+            ellipsePanel.Children.Add(copyEllipse3);
+            ellipsePanel.Children.Add(copyEllipse4);
 
             ListBoxHistoriek.Items.Add(ellipsePanel);
         }
 
+        //ISSUE: Ellipses get their own tooltip, but it checks the stackpanel tooltip instead which is always the wrongcolortt.
         public Ellipse CreateEllipse(Brush fillColor, Brush strokeColor)
         {
-            return new Ellipse
+            ToolTip CorrectPositionTT = new ToolTip { Content = "Juiste kleur, juiste positie" };
+            ToolTip CorrectColorTT = new ToolTip { Content = "Juiste kleur, foute positie" };
+            ToolTip WrongColorTT = new ToolTip { Content = "Foute kleur" };
+
+            Ellipse ellipse = new Ellipse
             {
                 Width = 40,
                 Height = 40,
@@ -270,6 +280,21 @@ namespace MasterMindWPL
                 Stroke = strokeColor,
                 StrokeThickness = 4
             };
+
+            if (strokeColor == new SolidColorBrush(Colors.Wheat))
+            {
+                ellipse.ToolTip = CorrectColorTT;
+            }
+            else if (strokeColor == new SolidColorBrush(Colors.DarkRed))
+            {
+                ellipse.ToolTip = CorrectPositionTT;
+            }
+            else
+            {
+                ellipse.ToolTip = WrongColorTT;
+            }
+
+            return ellipse;
         }
 
         public void EndGame()
