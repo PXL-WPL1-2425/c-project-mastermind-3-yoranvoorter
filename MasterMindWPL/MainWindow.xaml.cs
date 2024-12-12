@@ -30,6 +30,8 @@ namespace MasterMindWPL
         string[] _highscores = new string[15];
         int _maxAttempts;
         List<string> _playerList = new List<string>();
+        string _currentPlayer;
+        string _currentCode;
 
         public MainWindow()
         {
@@ -43,6 +45,8 @@ namespace MasterMindWPL
             TxtPogingen.Text = $"Poging: {_attempts} / 10\nScore: {_score}";
             foreach (string color in _code)
             {
+                _currentCode = _currentCode + $"{color} ";
+
                 this.Title = this.Title + " " + color;
                 TxtCode.Text = TxtCode.Text + $" {color}";
             }
@@ -200,16 +204,42 @@ namespace MasterMindWPL
             }
             if (rightGuesses == 4)
             {
-                MessageBox.Show($"Gewonnen! In {_attempts} pogingen", "VICTORY",MessageBoxButton.OK, MessageBoxImage.Information);
-                string[] highscoreDetails = new string[1] { $"{_name} - {_attempts} pogingen - {_score}/100" };
-                _highscores.Concat(highscoreDetails);
-                RestartGame();
+                int nextPlayer = _playerList.IndexOf(_currentPlayer) + 1;
+
+                if (nextPlayer >= _playerList.Count)
+                {
+                    MessageBox.Show($"Gewonnen! In {_attempts} pogingen.\n Alle spelers zijn geweest.", $"{_currentPlayer}", MessageBoxButton.OK, MessageBoxImage.Information);
+                    EndGame();
+                    RestartGame();
+                }
+                else
+                {
+                    MessageBox.Show($"Gewonnen! In {_attempts} pogingen.\n Nu is speler {_playerList[nextPlayer]} aan de beurt.", $"{_currentPlayer}",MessageBoxButton.OK, MessageBoxImage.Information);
+                    string[] highscoreDetails = new string[1] { $"{_currentPlayer} - {_attempts} pogingen - {_score}/100" };
+                    _highscores.Concat(highscoreDetails);
+                    _currentPlayer = _playerList[nextPlayer];
+                    RestartGame();
+                }
+
             }
 
             if (_attempts == _maxAttempts)
             {
-                MessageBox.Show("Uh oh, verloren.", "FAILED", MessageBoxButton.OK, MessageBoxImage.Error);
-                RestartGame();
+                int nextPlayer = _playerList.IndexOf(_currentPlayer) + 1;
+
+                if (nextPlayer >= _playerList.Count)
+                {
+                    MessageBox.Show($"You failed de correcte code was {_currentCode}\n Alle spelers zijn geweest.", $"{_currentPlayer}", MessageBoxButton.OK, MessageBoxImage.Information);
+                    EndGame();
+                    RestartGame();
+                }
+                else
+                {
+                    MessageBox.Show($"You failed de correcte code was {_currentCode}\n Nu is {_playerList[nextPlayer]} aan de beurt.", $"{_currentPlayer}", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _currentPlayer = _playerList[nextPlayer];
+                    RestartGame();
+                }
+
             }
             _attempts++;
             TxtPogingen.Text = $"Poging: {_attempts} / {_maxAttempts}\nScore: {_score}";
@@ -243,6 +273,12 @@ namespace MasterMindWPL
             };
         }
 
+        public void EndGame()
+        {
+            _playerList.Clear();
+            StartGame();
+        }
+
         public void RestartGame() 
         {
             _attempts = 0;
@@ -256,17 +292,18 @@ namespace MasterMindWPL
             ellipseColor3.Stroke = null;
             ellipseColor4.Fill = null;
             ellipseColor4.Stroke = null;
-            _playerList.Clear();
             GenerateRandomCode();
 
             this.Title = "";
+            _currentCode = "";
 
             foreach (string color in _code)
             {
+                _currentCode = _currentCode + $"{color} ";
+
                 this.Title = this.Title + " " + color;
                 TxtCode.Text = TxtCode.Text + $" {color}";
             }
-            StartGame();
         }
 
         public void StartGame()
@@ -290,6 +327,8 @@ namespace MasterMindWPL
                 string extraPlayer = AskPlayerName();
                 _playerList.Add(extraPlayer);
             } while (true);
+
+            _currentPlayer = _playerList[0];
         }
 
         public string AskPlayerName()
